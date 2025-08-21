@@ -1,25 +1,40 @@
+'use client';
+
 import React from "react";
+import { Services, OfferingTech } from "../types/strapi";
 
-const offerings = [
-  { icon: "💡", title: "Digital Strategy" },
-  { icon: "🛠️", title: "Product Engineering" },
-  { icon: "🤝", title: "Customer Experience" },
-  { icon: "☁️", title: "Cloud" },
-  { icon: "📊", title: "Data & AI" },
-];
+interface OfferingsSectionProps {
+  servicesData: Services;
+}
 
-const OfferingsSection = () => (
-  <section className="w-full py-12 px-4 bg-white">
-    <h2 className="text-2xl font-bold text-center mb-8 text-blue-900">Our Service Offerings & Capabilities</h2>
-    <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
-      {offerings.map((item, idx) => (
-        <div key={idx} className="flex flex-col items-center gap-2">
-          <span className="text-4xl">{item.icon}</span>
-          <span className="font-semibold text-blue-800">{item.title}</span>
-        </div>
-      ))}
-    </div>
-  </section>
-);
+const OfferingsSection: React.FC<OfferingsSectionProps> = ({ servicesData }) => {
+  // Map service titles to emojis for visual appeal
+  const getServiceIcon = (title: string): string => {
+    const iconMap: { [key: string]: string } = {
+      "Digital Strategy": "💡",
+      "Product Engineering": "🛠️",
+      "Customer Experience": "🤝",
+      "Cloud": "☁️",
+      "Data & AI": "📊"
+    };
+    return iconMap[title] || "🚀";
+  };
+
+  return (
+    <section className="w-full py-12 px-4 bg-white">
+      <h2 className="text-2xl font-bold text-center mb-8 text-blue-900">
+        {servicesData.Title}
+      </h2>
+      <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+        {servicesData.Offering_Tech.map((item: OfferingTech) => (
+          <div key={item.id} className="flex flex-col items-center gap-2">
+            <span className="text-4xl">{getServiceIcon(item.Title)}</span>
+            <span className="font-semibold text-blue-800">{item.Title}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default OfferingsSection; 
